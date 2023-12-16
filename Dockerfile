@@ -4,20 +4,17 @@ FROM node:latest
 # Set the working directory
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json if they exist
+# Copy package.json and package-lock.json from the server directory
 COPY server/package*.json ./
 
-# If there's no package.json, initialize a Node.js project
-RUN if [ ! -f package.json ]; then npm init -y; fi
+# Install project dependencies
+RUN npm install
 
-# Install http-server and mysql package globally
-RUN npm install -g http-server mysql
-
-# Bundle app source
+# Copy the server directory contents to the container
 COPY . .
 
-# Your app runs on port 8080
-EXPOSE 8080
+# Expose the port the app runs on
+EXPOSE 3000
 
-# Define command to run the app
-CMD [ "http-server", "public", "-p 8080" ]
+# Define the command to run the app
+CMD [ "node", "server/server.js" ]
