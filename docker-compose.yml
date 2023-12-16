@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  app:
+    build: .
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./public:/usr/src/app/public
+      - ./server:/usr/src/app/server
+  db:
+    image: mysql:5.7
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: online_shop
