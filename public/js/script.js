@@ -1,18 +1,18 @@
 // Function to load products from the server and display them
 function loadPageContent(event, page, category = '') {
-  event.preventDefault();  // Prevent default anchor action
+  event.preventDefault();
 
-  fetch(page)
-      .then(response => response.text())
-      .then(html => {
-          document.getElementById('content').innerHTML = html;
-          if (page === 'products.html') {
-              loadProducts(category); // Pass the category to loadProducts
-          }
-      })
-      .catch(error => console.error('Error loading page:', error));
+  if (page === 'products.html') {
+      fetch(page)
+          .then(response => response.text())
+          .then(html => {
+              document.getElementById('content').innerHTML = html;
+              loadProducts(category); // Load products of the clicked category
+          })
+          .catch(error => console.error('Error loading page:', error));
+  }
+  // If not loading products, the "About" section remains displayed
 }
-
 
 function loadProducts(category) {
   let url = 'http://localhost:3000/api/products';
