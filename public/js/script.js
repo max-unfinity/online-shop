@@ -1,19 +1,28 @@
 // Function to load products from the server and display them
-function loadProducts() {
-    fetch("http://localhost:3000/api/products")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        return response.json();
+function loadPageContent(page, category = '') {
+  fetch(page)
+      .then(response => response.text())
+      .then(html => {
+          document.getElementById('content').innerHTML = html;
+          if (page === 'products.html') {
+              loadProducts(category); // Pass the category to loadProducts
+          }
       })
-      .then((products) => {
-        console.log("Products:", products); // Log the response
-        displayProducts(products);
-      })
-      .catch((error) => console.error("Error fetching products:", error));
+      .catch(error => console.error('Error loading page:', error));
+}
+
+function loadProducts(category) {
+  let url = 'http://localhost:3000/api/products';
+  if (category) {
+      url += `?category=${encodeURIComponent(category)}`;
   }
-  
+
+  fetch(url)
+      .then(response => response.json())
+      .then(products => displayProducts(products))
+      .catch(error => console.error('Error fetching products:', error));
+}
+
 
 // Function to display products on the page
 function displayProducts(products) {
@@ -25,26 +34,46 @@ function displayProducts(products) {
         <img src="${product.image_url}" alt="${product.name}" />
         <p>${product.description}</p>
         <p>Price: $${product.price}</p>
-        <button>Add to Cart</button>
       `;
+    productElement.innerHTML += `<button onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>`;
     productsContainer.appendChild(productElement);
   });
-}
-
-function loadPageContent(page) {
-  fetch(page)
-    .then((response) => response.text())
-    .then((html) => {
-      document.getElementById("content").innerHTML = html;
-      // If the page is 'products.html', load its specific JavaScript
-      if (page === "products.html") {
-        loadProducts(); // This function should exist for loading products
-      }
-    })
-    .catch((error) => console.error("Error loading page:", error));
 }
 
 // Load initial content (e.g., a home page or default view)
 document.addEventListener("DOMContentLoaded", () => {
   loadPageContent("init_page.html");
 });
+
+
+// Cart functional
+
+function addToCart(product) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.push(product);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  displayCartItems();
+}
+
+function displayCartItems() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const cartItemsContainer = document.getElementById('cart-items');
+  cartItemsContainer.innerHTML = '';
+  cart.forEach((item, index) => {
+      cartItemsContainer.innerHTML += `<div>${item.name} - $${item.price} <button onclick="removeFromCart(${index})">Remove</button></div>`;
+  });
+}
+
+function removeFromCart(index) {
+  let cart = JSON.parse(localStorage.getItem('cart')) || [];
+  cart.splice(index, 1);
+  localStorage.setItem('cart', JSON.stringify(cart));
+  displayCartItems();
+}
+
+function clearCart() {
+  localStorage.removeItem('cart');
+  displayCartItems();
+}
+
+document.addEventListener('DOMContentLoaded', displayCartItems);

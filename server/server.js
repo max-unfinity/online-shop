@@ -35,16 +35,23 @@ app.use((req, res, next) => {
 });
 
 // API endpoint to fetch products
-app.get("/api/products", (req, res) => {
-    connection.query("SELECT * FROM products", (error, results) => {
-      if (error) {
-        console.error("Error fetching products AAA:", error);
-        res.status(500).json({ error: error.message, sqlMessage: error.sqlMessage });
-        return;
-      }
-      res.json(results);
-    });
+app.get('/api/products', (req, res) => {
+  let query = 'SELECT * FROM products';
+  const category = req.query.category;
+
+  if (category) {
+    query += ' WHERE category = ' + mysql.escape(category);
+  }
+
+  connection.query(query, (error, results) => {
+    if (error) {
+      console.error('Error fetching products:', error);
+      res.status(500).send('Internal Server Error');
+      return;
+    }
+    res.json(results);
   });
+});
   
 
 app.listen(port, () => {
