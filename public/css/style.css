@@ -130,3 +130,40 @@ button {
 button:hover {
     background-color: #0056b3;
 }
+
+
+/* Admin */
+#admin-login-btn {
+    background: none;
+    border: none;
+    color: white;
+    text-decoration: underline;
+    cursor: pointer;
+}
+
+#admin-login-form {
+    position: fixed;
+    right: 10px;
+    bottom: 60px;
+    background: white;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+#admin-login-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+#admin-login-form label {
+    margin-top: 10px;
+}
+
+#admin-login-form input {
+    margin-top: 5px;
+}
+
+#admin-login-form button {
+    margin-top: 10px;
+}

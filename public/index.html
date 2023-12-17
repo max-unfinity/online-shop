@@ -44,9 +44,21 @@
 
     </div>
 
+    <div id="admin-login-form" style="display:none;">
+        <form onsubmit="handleAdminLogin(event)">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required>
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+            <button type="submit">Log In</button>
+        </form>
+    </div>
+    
     <footer>
         <p>Contact us: info@onlineshop.com</p>
+        <button id="admin-login-btn" onclick="showAdminLoginForm()">Log in as Admin</button>
     </footer>
+    
 <script src="js/script.js"></script>
 </body>
 </html>

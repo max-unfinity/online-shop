@@ -88,3 +88,36 @@ function clearCart() {
 }
 
 document.addEventListener('DOMContentLoaded', displayCartItems);
+
+
+const adminCredentials = {
+  username: 'admin',
+  password: 'admin'  // In real application, use secure methods
+};
+
+function showAdminLogin() {
+  const user = prompt('Enter username:');
+  const pass = prompt('Enter password:');
+
+  if (user === adminCredentials.username && pass === adminCredentials.password) {
+      window.location.href = 'admin.html'; // Redirect to admin page
+  } else {
+      alert('Incorrect credentials.');
+  }
+}
+
+function showAdminLoginForm() {
+  document.getElementById('admin-login-form').style.display = 'block';
+}
+
+function handleAdminLogin(event) {
+  event.preventDefault();
+  const username = document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+
+  if (username === 'admin' && password === 'admin') { // Hardcoded credentials
+      window.location.href = 'admin.html'; // Redirect to admin page
+  } else {
+      alert('Incorrect credentials.');
+  }
+}

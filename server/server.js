@@ -52,7 +52,53 @@ app.get('/api/products', (req, res) => {
     res.json(results);
   });
 });
-  
+
+// Route to get all products
+app.get('/api/products', (req, res) => {
+  connection.query('SELECT * FROM products', (error, results) => {
+      if (error) res.status(500).send(error);
+      res.json(results);
+  });
+});
+
+// Route to create a new product
+app.post('/api/products', (req, res) => {
+  const { name, category, description, price, imageUrl } = req.body;
+  const query = 'INSERT INTO products (name, category, description, price, image_url) VALUES (?, ?, ?, ?, ?)';
+  connection.query(query, [name, category, description, price, imageUrl], (error, results) => {
+      if (error) res.status(500).send(error);
+      res.json({ id: results.insertId });
+  });
+});
+
+// Route to update a product
+app.put('/api/products/:id', (req, res) => {
+  const { id } = req.params;
+  const { name, category, description, price, imageUrl } = req.body;
+  const query = 'UPDATE products SET name = ?, category = ?, description = ?, price = ?, image_url = ? WHERE id = ?';
+
+  connection.query(query, [name, category, description, price, imageUrl, id], (error, results) => {
+      if (error) {
+          res.status(500).send(error);
+          return;
+      }
+      res.json({ message: 'Product updated successfully' });
+  });
+});
+
+// Route to delete a product
+app.delete('/api/products/:id', (req, res) => {
+  const { id } = req.params;
+  const query = 'DELETE FROM products WHERE id = ?';
+
+  connection.query(query, [id], (error, results) => {
+      if (error) {
+          res.status(500).send(error);
+          return;
+      }
+      res.json({ message: 'Product deleted successfully' });
+  });
+});
 
 app.listen(port, () => {
   console.log(`Server running on http://localhost:${port}`);
