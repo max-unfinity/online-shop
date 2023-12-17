@@ -1,35 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Online Shop</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <header>
-        <!-- <img src="images/logo.png" alt="Our Logo"> -->
-        <h1>Welcome to Our Online Shop</h1>
+        <div class="container-header">
+            <!-- <img src="images/logo.png" alt="Our Logo" class="logo"> -->
+            <h1>Welcome to Our Online Shop</h1>
+        </div>
     </header>
-    <aside class="sidebar">
-        <section id="shopping-cart">
-            <h2>Shopping Cart</h2>
-            <div id="cart-items">
-                <!-- Cart items will be listed here -->
-            </div>
-            <button onclick="clearCart()">Clear Cart</button>
-        </section>
-        <h2>Categories</h2>
-        <ul id="category-list">
-            <li><a href="#" onclick="loadPageContent('products.html', 'Laptops')">Laptops</a></li>
-            <li><a href="#" onclick="loadPageContent('products.html', 'Smartphones')">Smartphones</a></li>
-            <li><a href="#" onclick="loadPageContent('products.html', 'Cameras')">Cameras</a></li>
-            <li><a href="#" onclick="loadPageContent('products.html', 'Accessories')">Accessories</a></li>
-        </ul>
-    </aside>
-    <main id="content">
-        <!-- Dynamic content will be loaded here -->
-    </main>
+    
+    <div class="container">
+        <aside class="sidebar">
+            <section id="categories">
+                <h2>Categories</h2>
+                <ul id="category-list">
+                    <li><a href="#" onclick="loadPageContent(event, 'products.html', 'Laptops')">Laptops</a></li>
+                    <li><a href="#" onclick="loadPageContent(event, 'products.html', 'Smartphones')">Smartphones</a></li>
+                    <li><a href="#" onclick="loadPageContent(event, 'products.html', 'Cameras')">Cameras</a></li>
+                    <li><a href="#" onclick="loadPageContent(event, 'products.html', 'Accessories')">Accessories</a></li>
+                </ul>
+            </section>
+            <section id="shopping-cart">
+                <h2>Shopping Cart</h2>
+                <div id="cart-items">
+                    <!-- Cart items will be listed here -->
+                </div>
+                <button onclick="clearCart()">Clear Cart</button>
+            </section>
+        </aside>
+
+        <main id="content">
+            <!-- Dynamic content will be loaded here -->
+        </main>
+    </div>
+
     <footer>
-        <!-- Footer content -->
+        <p>Contact us: info@onlineshop.com</p>
     </footer>
 <script src="js/script.js"></script>
 </body>

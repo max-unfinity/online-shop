@@ -1,5 +1,7 @@
 // Function to load products from the server and display them
-function loadPageContent(page, category = '') {
+function loadPageContent(event, page, category = '') {
+  event.preventDefault();  // Prevent default anchor action
+
   fetch(page)
       .then(response => response.text())
       .then(html => {
@@ -10,6 +12,7 @@ function loadPageContent(page, category = '') {
       })
       .catch(error => console.error('Error loading page:', error));
 }
+
 
 function loadProducts(category) {
   let url = 'http://localhost:3000/api/products';
@@ -60,7 +63,15 @@ function displayCartItems() {
   const cartItemsContainer = document.getElementById('cart-items');
   cartItemsContainer.innerHTML = '';
   cart.forEach((item, index) => {
-      cartItemsContainer.innerHTML += `<div>${item.name} - $${item.price} <button onclick="removeFromCart(${index})">Remove</button></div>`;
+      cartItemsContainer.innerHTML += `
+          <div class="cart-item">
+              <div class="item-info">
+                  <span>${item.name} - $${item.price}</span>
+              </div>
+              <div class="item-action">
+                  <button onclick="removeFromCart(${index})">Remove</button>
+              </div>
+          </div>`;
   });
 }
 
