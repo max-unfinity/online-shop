@@ -28,20 +28,20 @@ function loadProducts(category) {
 
 
 // Function to display products on the page
-function displayProducts(products) {
-  const productsContainer = document.getElementById("product-grid");
-  products.forEach((product) => {
-    const productElement = document.createElement("div");
-    productElement.innerHTML = `
-        <h3>${product.name}</h3>
-        <img src="${product.image_url}" alt="${product.name}" />
-        <p>${product.description}</p>
-        <p>Price: $${product.price}</p>
-      `;
-    productElement.innerHTML += `<button onclick='addToCart(${JSON.stringify(product)})'>Добавить в корзину</button>`;
-    productsContainer.appendChild(productElement);
-  });
-}
+// function displayProducts(products) {
+//   const productsContainer = document.getElementById("product-grid");
+//   products.forEach((product) => {
+//     const productElement = document.createElement("div");
+//     productElement.innerHTML = `
+//         <h3>${product.name}</h3>
+//         <img src="${product.image_url}" alt="${product.name}" />
+//         <p>${product.description}</p>
+//         <p>Price: $${product.price}</p>
+//       `;
+//     productElement.innerHTML += `<button onclick='addToCart(${JSON.stringify(product)})'>Добавить в корзину</button>`;
+//     productsContainer.appendChild(productElement);
+//   });
+// }
 
 // Load initial content (e.g., a home page or default view)
 document.addEventListener("DOMContentLoaded", () => {
@@ -87,8 +87,6 @@ function clearCart() {
   displayCartItems();
 }
 
-document.addEventListener('DOMContentLoaded', displayCartItems);
-
 
 const adminCredentials = {
   username: 'admin',
@@ -121,3 +119,80 @@ function handleAdminLogin(event) {
       alert('Неверные логин или пароль.');
   }
 }
+
+// Fetch Main Categories from the Server
+function fetchMainCategories() {
+  fetch('http://localhost:3000/api/categories')
+      .then(response => response.json())
+      .then(categories => {
+          const categoryList = document.getElementById('category-list');
+          categoryList.innerHTML = categories.map(cat => 
+              `<li>
+                  <a href="#" onclick="toggleSubcategories(event, ${cat.id})">${cat.name}</a>
+                  <ul id="subcategories-${cat.id}" class="subcategories"></ul>
+              </li>`
+          ).join('');
+      })
+      .catch(error => console.error('Error:', error));
+}
+
+function toggleSubcategories(event, categoryId) {
+  event.preventDefault();
+  const allSubcategoryLists = document.querySelectorAll('.subcategories');
+  allSubcategoryLists.forEach(list => {
+      if (list.id !== `subcategories-${categoryId}`) {
+          list.style.display = 'none'; // Hide other subcategories
+      }
+  });
+
+  const subcategoriesList = document.getElementById(`subcategories-${categoryId}`);
+  if(subcategoriesList.style.display === 'none' || subcategoriesList.innerHTML === '') {
+      fetchSubcategories(categoryId, subcategoriesList);
+      subcategoriesList.style.display = 'block';
+  } else {
+      subcategoriesList.style.display = 'none'; // Toggle visibility
+  }
+}
+
+function fetchSubcategories(categoryId, subcategoriesList) {
+  fetch(`http://localhost:3000/api/subcategories?category=${categoryId}`)
+      .then(response => response.json())
+      .then(subcategories => {
+          subcategoriesList.innerHTML = subcategories.map(sub => 
+              `<li><a href="#" onclick="fetchProductsBySubcategory(${sub.id})">${sub.name}</a></li>`
+          ).join('');
+      })
+      .catch(error => console.error('Error:', error));
+}
+
+// Fetch and Display Products Based on Subcategory
+function fetchProductsBySubcategory(subcategoryId) {
+  fetch(`http://localhost:3000/api/products?subcategory=${subcategoryId}`)
+      .then(response => response.json())
+      .then(products => {
+          displayProducts(products);
+      })
+      .catch(error => console.error('Error fetching products:', error));
+}
+
+function displayProducts(products) {
+  const contentArea = document.getElementById("content");
+  contentArea.innerHTML = '<div id="product-grid"></div>'; // Reset and prepare the product grid
+  const productsContainer = document.getElementById("product-grid");
+
+  products.forEach(product => {
+      const productElement = document.createElement("div");
+      productElement.innerHTML = `
+          <h3>${product.name}</h3>
+          <img src="${product.image_url}" alt="${product.name}" />
+          <p>${product.description}</p>
+          <p>Price: $${product.price}</p>
+          <button onclick='addToCart(${JSON.stringify(product)})'>Добавить в корзину</button>
+      `;
+      productsContainer.appendChild(productElement);
+  });
+}
+
+// Initial fetch of main categories
+document.addEventListener("DOMContentLoaded", fetchMainCategories);
+document.addEventListener('DOMContentLoaded', displayCartItems); // For cart items

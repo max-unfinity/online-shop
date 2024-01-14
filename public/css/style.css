@@ -51,6 +51,12 @@ footer p {
 .sidebar ul {
     list-style: none;
     padding: 0;
+    margin: 0;
+}
+
+/* Main Category Styles */
+.sidebar ul li {
+    padding: 5px 0;
 }
 
 .sidebar ul li a {
@@ -63,6 +69,22 @@ footer p {
 
 .sidebar ul li a:hover {
     background-color: #f4f4f4;
+}
+
+/* Subcategory Styles */
+.sidebar ul .subcategories {
+    padding-left: 20px; /* Indent subcategories */
+    margin-top: 5px;
+    display: none; /* Initially hide subcategories */
+}
+
+.sidebar ul .subcategories li {
+    padding: 3px 0;
+}
+
+.sidebar ul .subcategories li a {
+    font-size: 0.9em; /* Smaller font for subcategories */
+    color: #0056b3; /* Different color for subcategory links */
 }
 
 /* Main Content Styles */

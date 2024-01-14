@@ -20,44 +20,54 @@ connection.connect((err) => {
   console.log("Connected to database with ID " + connection.threadId);
 });
 
-// Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "../public")));
+app.use(express.json()); // For parsing application/json
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  next();
+});
 
 // Optional: Define a root route (can redirect to 'index.html')
 app.get("/", (req, res) => {
   res.redirect("/index.html");
 });
 
-// Enable CORS for client-side
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  next();
-});
-
-// API endpoint to fetch products
-app.get('/api/products', (req, res) => {
-  let query = 'SELECT * FROM products';
-  const category = req.query.category;
-
-  if (category) {
-    query += ' WHERE category = ' + mysql.escape(category);
-  }
-
-  connection.query(query, (error, results) => {
+// Route to get all categories
+app.get('/api/categories', (req, res) => {
+  connection.query('SELECT * FROM categories', (error, results) => {
     if (error) {
-      console.error('Error fetching products:', error);
-      res.status(500).send('Internal Server Error');
+      res.status(500).send(error);
       return;
     }
     res.json(results);
   });
 });
 
-// Route to get all products
+// Route to get subcategories by category
+app.get('/api/subcategories', (req, res) => {
+  const { category } = req.query;
+  const query = 'SELECT * FROM subcategories WHERE category_id = ?';
+  connection.query(query, [category], (error, results) => {
+    if (error) {
+      res.status(500).send(error);
+      return;
+    }
+    res.json(results);
+  });
+});
+
+// Route to get products by subcategory
 app.get('/api/products', (req, res) => {
-  connection.query('SELECT * FROM products', (error, results) => {
-      if (error) res.status(500).send(error);
-      res.json(results);
+  let query = 'SELECT * FROM products';
+  const subcategory = req.query.subcategory;
+
+  if (subcategory) {
+    query += ' WHERE subcategory_id = ' + mysql.escape(subcategory);
+  }
+
+  connection.query(query, (error, results) => {
+    if (error) res.status(500).send(error);
+    res.json(results);
   });
 });
 
