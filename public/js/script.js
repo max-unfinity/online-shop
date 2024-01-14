@@ -38,7 +38,7 @@ function displayProducts(products) {
         <p>${product.description}</p>
         <p>Price: $${product.price}</p>
       `;
-    productElement.innerHTML += `<button onclick='addToCart(${JSON.stringify(product)})'>Add to Cart</button>`;
+    productElement.innerHTML += `<button onclick='addToCart(${JSON.stringify(product)})'>Добавить в корзину</button>`;
     productsContainer.appendChild(productElement);
   });
 }
@@ -69,7 +69,7 @@ function displayCartItems() {
                   <span>${item.name} - $${item.price}</span>
               </div>
               <div class="item-action">
-                  <button onclick="removeFromCart(${index})">Remove</button>
+                  <button onclick="removeFromCart(${index})">Удалить</button>
               </div>
           </div>`;
   });
@@ -102,7 +102,7 @@ function showAdminLogin() {
   if (user === adminCredentials.username && pass === adminCredentials.password) {
       window.location.href = 'admin.html'; // Redirect to admin page
   } else {
-      alert('Incorrect credentials.');
+      alert('Неверные логин или пароль.');
   }
 }
 
@@ -118,6 +118,6 @@ function handleAdminLogin(event) {
   if (username === 'admin' && password === 'admin') { // Hardcoded credentials
       window.location.href = 'admin.html'; // Redirect to admin page
   } else {
-      alert('Incorrect credentials.');
+      alert('Неверные логин или пароль.');
   }
 }
