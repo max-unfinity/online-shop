@@ -10,6 +10,7 @@ const connection = mysql.createConnection({
   user: "root",
   password: "root",
   database: "online_shop",
+  charset: 'utf8mb4'
 });
 
 connection.connect((err) => {
@@ -34,6 +35,7 @@ app.get("/", (req, res) => {
 
 // Route to get all categories
 app.get('/api/categories', (req, res) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
   connection.query('SELECT * FROM categories', (error, results) => {
     if (error) {
       res.status(500).send(error);
