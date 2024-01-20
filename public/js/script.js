@@ -184,9 +184,9 @@ function displayProducts(products) {
       const productElement = document.createElement("div");
       productElement.innerHTML = `
           <h3>${product.name}</h3>
-          <img src="${product.image_url}" alt="${product.name}" />
+          <img src="/images/${product.image_url}" alt="${product.name}" />
           <p>${product.description}</p>
-          <p>Price: $${product.price}</p>
+          <p>Цена: ${product.price} руб.</p>
           <button onclick='addToCart(${JSON.stringify(product)})'>Добавить в корзину</button>
       `;
       productsContainer.appendChild(productElement);

@@ -22,6 +22,7 @@ connection.connect((err) => {
 });
 
 app.use(express.static(path.join(__dirname, "../public")));
+app.use('/images', express.static(path.join(__dirname, '../db/images')));
 app.use(express.json()); // For parsing application/json
 app.use((req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");

@@ -15,7 +15,14 @@ INSERT INTO subcategories (name, category_id) VALUES
 ('IPhone', 3);
 
 INSERT INTO products (name, subcategory_id, description, price, image_url) VALUES
-('Наушники внутриканальные Apple EarPods', 4, 'Описание', 2699, 'db/images/headphones_wired.jpg'),
-('Case for Samsung 1', 1, 'Description', 499.99, 'http://example.com/smartphone1.jpg'),
-('Glass for IPhone 1', 6, 'Description', 299.99, 'http://example.com/camera1.jpg'),
-('Wireless Headphones', 3, 'Description', 89.99, 'http://example.com/headphones1.jpg');
+('Защитное стекло для iPhone 12', 6, 'Прочное стекло для защиты экрана iPhone 12', 1000, 'Glass iPhone 12.jpg'),
+('Защитное стекло для iPhone 14', 6, 'Стекло для надежной защиты экрана iPhone 14', 1100, 'Protective Glass iPhone 14.jpg'),
+('AirPods Pro', 3, 'Наушники Apple AirPods Pro с шумоподавлением', 20000, 'Apple AirPods Pro Headphones.jpg'),
+('Чехол для iPhone 14', 2, 'Изящный чехол для iPhone 14', 1500, 'Case for iPhone 14.jpg'),
+('Проводные наушники', 4, 'Классические проводные наушники', 500, 'Wired Headphones.jpg'),
+('Защитное стекло для iPhone 15', 6, 'Защитное стекло для экрана iPhone 15', 1200, 'Protective Glass iPhone 15.jpg'),
+('Чехол для iPhone 12', 2, 'Защитный чехол для iPhone 12', 1400, 'Case for iPhone 12.jpg'),
+('Чехол для iPhone 15', 2, 'Стильный чехол для iPhone 15', 1600, 'Case for iPhone 15.jpg'),
+('Защитное стекло для iPhone 13', 6, 'Стекло для защиты экрана iPhone 13', 1050, 'Protective Glass iPhone 13.jpg'),
+('AirPods', 3, 'Наушники Apple AirPods', 18000, 'Apple AirPods Headphones.jpg'),
+('Чехол для iPhone 13', 2, 'Чехол для iPhone 13 с защитой от ударов', 1450, 'Case for iPhone 13.jpg');
