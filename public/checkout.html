@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Аксессуары</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header>
+        <div class="container-header">
+            <!-- <img src="images/logo.png" alt="Our Logo" class="logo"> -->
+            <h1>Магазин аксессуаров</h1>
+        </div>
+    </header>
+    
+    <div class="container">
+        <main id="content">
+            <section id="checkout">
+                <h2>Оформление заказа</h2>
+                <b>Ваши покупки:</b>
+                <div id="checkout-items">
+                    <!-- Items from the cart will be listed here -->
+                </div>
+                
+                <p>Пожалуйста, заполните форму ниже, чтобы оформить заказ.</p>
+                <form id="checkout-form" onsubmit="handleCheckout(event)">
+                    <input type="text" id="fullname" name="fullname" placeholder="ФИО" required>
+                    <input type="text" id="phone" name="phone" placeholder="Номер телефона" required>
+                    <input type="text" id="address" name="address" placeholder="Адрес доставки" required>
+                    <select id="payment-method" name="payment-method">
+                        <option value="card">Оплата картой</option>
+                        <option value="cash">Оплата наличными</option>
+                    </select>
+                    <button type="submit">Оформить</button>
+                </form>
+
+            </section>
+            <button onclick="window.location.href='index.html'" class="back-to-shop">&#8592; Назад в магазин</button>
+        </main>
+
+    </div>
+<script src="js/script.js"></script>
+</body>
+</html>

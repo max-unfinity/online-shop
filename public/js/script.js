@@ -66,7 +66,7 @@ function displayCartItems() {
       cartItemsContainer.innerHTML += `
           <div class="cart-item">
               <div class="item-info">
-                  <span>${item.name} - $${item.price}</span>
+                  <span>${item.name} - ${item.price} руб.</span>
               </div>
               <div class="item-action">
                   <button onclick="removeFromCart(${index})">Удалить</button>
@@ -87,6 +87,44 @@ function clearCart() {
   displayCartItems();
 }
 
+function goToCheckout() {
+  window.location.href = 'checkout.html';
+}
+
+function handleCheckout(event) {
+  event.preventDefault();
+  // Gather form data and perform the checkout process
+  const fullname = document.getElementById('fullname').value;
+  const address = document.getElementById('address').value;
+  const paymentMethod = document.getElementById('payment-method').value;
+  // Implement the checkout logic (e.g., sending data to the server)
+  alert(`Спасибо за покупку! Мы обработаем Ваш заказ и позвоним, чтобы учтонить детали.`);
+  // Clear the cart
+  clearCart();
+}
+
+function displayCheckoutItems() {
+  const cart = JSON.parse(localStorage.getItem('cart')) || [];
+  const checkoutItemsContainer = document.getElementById('checkout-items');
+  let totalPrice = 0;
+
+  checkoutItemsContainer.innerHTML = '';
+  cart.forEach((item) => {
+      const itemElement = document.createElement('div');
+      itemElement.textContent = `${item.name} - ${item.price} руб.`;
+      checkoutItemsContainer.appendChild(itemElement);
+      totalPrice += parseFloat(item.price);
+  });
+
+  // Display total price
+  const totalPriceElement = document.createElement('div');
+  totalPriceElement.className = 'total-price';
+  totalPriceElement.textContent = `Итого: ${totalPrice} руб.`;
+  checkoutItemsContainer.appendChild(totalPriceElement);
+}
+
+
+// Admin Functional
 
 const adminCredentials = {
   username: 'admin',
@@ -194,5 +232,14 @@ function displayProducts(products) {
 }
 
 // Initial fetch of main categories
-document.addEventListener("DOMContentLoaded", fetchMainCategories);
-document.addEventListener('DOMContentLoaded', displayCartItems); // For cart items
+// document.addEventListener("DOMContentLoaded", fetchMainCategories);
+// document.addEventListener('DOMContentLoaded', displayCartItems); // For cart items
+
+document.addEventListener('DOMContentLoaded', () => {
+  if (window.location.href.includes('checkout.html')) {
+    displayCheckoutItems();
+  } else {
+    fetchMainCategories();
+    displayCartItems();
+  }
+});
